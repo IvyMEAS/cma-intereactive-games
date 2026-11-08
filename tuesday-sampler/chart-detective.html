@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chart Detective · Created by ChatGPT</title>
+<style>
+:root{font:1rem/1.5 system-ui,sans-serif;color:#18372e;background:#eef4ef;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0}
+header{background:#133c30;color:#fff;border-bottom:5px solid #e8bb61}
+.wrap{width:min(72rem,100% - 2rem);margin:auto}
+header .wrap{padding:1.35rem 0}
+header p{color:#ffe2a5;margin:0}
+h1{margin:.15rem 0;font-size:clamp(2rem,6vw,3.1rem);line-height:1.1}
+main{padding:1.25rem 0 2.5rem}
+h2,h3{margin:0 0 .6rem;line-height:1.25}
+p{margin:.35rem 0 .8rem}
+button,select,input{font:inherit;color:inherit}
+button,select,input[type=text]{border:1px solid #5c796e;border-radius:8px;background:white;min-height:44px;padding:.5rem .7rem}
+button{cursor:pointer;text-align:left}
+button:hover:not(:disabled){background:#e7f2ea}
+button.primary,button[aria-pressed=true]{background:#15523b;color:#fff}
+button.primary:hover,button[aria-pressed=true]:hover{background:#0f422f}
+button:disabled{cursor:default;opacity:.75}
+:focus-visible{outline:3px solid #a35600;outline-offset:3px}
+.desk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;align-items:start}
+.panel{background:#fff;border:1px solid #c8dacf;border-radius:14px;padding:1rem}
+.stack{display:grid;gap:.55rem}
+.casebar,.toolbar{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.casebar{justify-content:space-between;margin-bottom:1rem}
+.badge{display:inline-block;border-radius:5px;background:#e3eee5;padding:.2rem .55rem;font-weight:650;color:#244d3a}
+.step{margin-bottom:1rem}
+.muted{color:#485b51}
+.source{padding:.8rem;border-left:4px solid #a56f23;background:#fff6e3;min-height:7rem;margin-top:.8rem}
+.source p:last-child{margin-bottom:0}
+.field{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) auto;gap:.5rem;align-items:center;width:100%;overflow-wrap:anywhere}
+.field small{font-weight:650}
+#notice:not(:empty){padding:.55rem .75rem;background:#fdf0d2;border-radius:7px}
+#repair,#report{margin-top:1rem}
+.repair-card{border:1px solid #bfd4c6;border-radius:9px;padding:.7rem;margin:.65rem 0;min-width:0}
+.repair-card legend{padding:0 .35rem;font-weight:700}
+.repair-card label{display:block;margin:.4rem 0 .2rem}
+.repair-card input,.repair-card select{width:100%}
+#report-list{padding-left:1.35rem}
+#report-list li{margin:.45rem 0}
+[hidden]{display:none!important}
+@media(max-width:680px){.desk{grid-template-columns:1fr}.field{grid-template-columns:minmax(0,1fr) auto}.field .value{grid-column:1/-1}.field small{grid-column:2;grid-row:1}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><p>MEAS109 · Module 4 · Created by ChatGPT</p><h1>Chart Detective</h1></div></header>
+<main class="wrap">
+  <div class="casebar"><div><span class="badge" id="case-number"></span><h2 id="case-title"></h2></div><button type="button" id="reset">Restart case</button></div>
+  <p id="step" class="step">Open the source records and flag any chart fields that disagree. Then draft an addendum using the evidence you found.</p>
+  <div class="desk">
+    <section class="panel" aria-labelledby="sources-title">
+      <h3 id="sources-title">Evidence folder</h3>
+      <div id="source-controls" class="toolbar" role="group" aria-label="Source records"></div>
+      <div id="source-view" class="source" aria-live="polite"></div>
+    </section>
+    <section class="panel" aria-labelledby="chart-title">
+      <h3 id="chart-title">Signed chart entry</h3>
+      <p class="muted" id="chart-patient"></p>
+      <div id="chart" class="stack"></div>
+      <p id="flag-count" role="status"></p>
+      <button type="button" class="primary" id="draft">Draft addendum</button>
+    </section>
+  </div>
+  <section id="repair" class="panel" aria-labelledby="repair-title" hidden>
+    <h3 id="repair-title">Draft addendum</h3>
+    <p>The original entry stays visible. For each flag, enter the verified value and identify the source that supports it.</p>
+    <form id="repair-form">
+      <div id="repair-fields"></div>
+      <div class="toolbar"><button type="submit" class="primary">File simulated addendum</button><button type="button" id="edit-flags">Back to chart flags</button></div>
+    </form>
+  </section>
+  <p id="notice" role="status"></p>
+  <section id="report" class="panel" aria-labelledby="report-title" hidden>
+    <h3 id="report-title"></h3>
+    <p id="score"></p>
+    <ul id="report-list"></ul>
+    <p id="takeaway"></p>
+    <button type="button" class="primary" id="next">Open next case</button>
+  </section>
+</main>
+<script>
+(() => {
+  const el = id => document.getElementById(id);
+  const cases = [
+    {
+      title:'The callback that went off track', patient:'Alex Rowan · Mock chart 4826',
+      sources:[
+        {label:'Voicemail',text:'“This is Alex Rowan. I’m calling about my follow-up appointment. You can reach me at 555-0148.”'},
+        {label:'Appointment log',text:'Chart 4826 · Alex Rowan · Tuesday, 2:15 p.m. · Follow-up visit.'}
+      ],
+      fields:[
+        {label:'Patient',value:'Alex Rowan'},
+        {label:'Callback number',value:'555-0184',answer:'555-0148',accept:['5550148'],source:0},
+        {label:'Appointment day',value:'Tuesday'},
+        {label:'Appointment time',value:'2:45 p.m.',answer:'2:15 p.m.',accept:['215pm','215'],source:1},
+        {label:'Visit type',value:'Follow-up'}
+      ],
+      takeaway:'For exam prep, distinguish the patient’s reported callback number from the verified schedule. Use the source that supports each correction and preserve the signed entry.'
+    },
+    {
+      title:'The pre-visit packet', patient:'Jordan Vale · Mock chart 5962',
+      sources:[
+        {label:'Referral log',text:'Chart 5962 · Jordan Vale · Cardiology follow-up · Referring provider Dr. Avery.'},
+        {label:'Records inbox',text:'Chart 5962 · Cardiology consultation report received June 8. The inbox records it as received and indexed.'}
+      ],
+      fields:[
+        {label:'Patient',value:'Jordan Vale'},
+        {label:'Specialty',value:'Neurology',answer:'Cardiology',accept:['cardiology'],source:0},
+        {label:'Referring provider',value:'Dr. Avery'},
+        {label:'Report type',value:'Discharge summary',answer:'Consultation report',accept:['consultationreport','cardiologyconsultationreport','consultreport','cardiologyconsultreport'],source:1},
+        {label:'Record status',value:'Received and indexed'}
+      ],
+      takeaway:'For exam prep, use the referral record to verify the specialty and the incoming record to identify the report type. A consultation report documents a specialist’s assessment and recommendations.'
+    }
+  ];
+  let caseIndex = 0;
+  let openSource = 0;
+  let stage = 'inspect';
+  const flags = new Set();
+  const current = () => cases[caseIndex];
+  const normalize = value => value.toLowerCase().replace(/[^a-z0-9]/g,'');
+  function node(tag,text) {
+    const element = document.createElement(tag);
+    if (text !== undefined) element.textContent = text;
+    return element;
+  }
+  function button(text,handler) {
+    const control = node('button',text);
+    control.type = 'button';
+    control.addEventListener('click',handler);
+    return control;
+  }
+  function renderSources() {
+    const {sources} = current();
+    el('source-controls').replaceChildren();
+    sources.forEach((source,index) => {
+      const control = button(source.label,() => {
+        openSource = index;
+        renderSources();
+        el('source-controls').children[index].focus();
+      });
+      control.setAttribute('aria-pressed',String(index === openSource));
+      el('source-controls').append(control);
+    });
+    const source = sources[openSource];
+    el('source-view').replaceChildren(node('strong',source.label),node('p',source.text));
+  }
+  function renderChart() {
+    el('chart').replaceChildren();
+    current().fields.forEach((field,index) => {
+      const control = button(undefined,() => {
+        if (flags.has(index)) flags.delete(index);
+        else flags.add(index);
+        el('notice').textContent = '';
+        renderChart();
+        el('chart').children[index].focus();
+      });
+      control.className = 'field';
+      control.disabled = stage !== 'inspect';
+      control.setAttribute('aria-pressed',String(flags.has(index)));
+      const value = node('span',field.value);
+      value.className = 'value';
+      control.append(node('strong',field.label),value,node('small',flags.has(index) ? 'Flagged' : ''));
+      el('chart').append(control);
+    });
+    el('flag-count').textContent = flags.size + (flags.size === 1 ? ' field flagged' : ' fields flagged');
+    el('draft').hidden = stage !== 'inspect';
+  }
+  function loadCase() {
+    openSource = 0;
+    stage = 'inspect';
+    flags.clear();
+    el('case-number').textContent = 'Case ' + (caseIndex + 1) + ' of ' + cases.length;
+    el('case-title').textContent = current().title;
+    el('chart-patient').textContent = current().patient;
+    el('notice').textContent = '';
+    el('repair').hidden = true;
+    el('report').hidden = true;
+    renderSources();
+    renderChart();
+  }
+  function draftAddendum() {
+    if (!flags.size) {
+      el('notice').textContent = 'Select at least one chart field before drafting the addendum.';
+      return;
+    }
+    el('notice').textContent = '';
+    stage = 'draft';
+    renderChart();
+    const list = el('repair-fields');
+    list.replaceChildren();
+    [...flags].sort((a,b) => a-b).forEach(index => {
+      const field = current().fields[index];
+      const group = node('fieldset');
+      group.className = 'repair-card';
+      const original = node('p','Original entry: ' + field.value);
+      original.className = 'muted';
+      const value = node('input');
+      value.type = 'text';
+      value.id = 'value-' + index;
+      value.required = true;
+      value.maxLength = 80;
+      value.autocomplete = 'off';
+      const valueLabel = node('label','Verified value');
+      valueLabel.htmlFor = value.id;
+      const evidence = node('select');
+      evidence.id = 'source-' + index;
+      evidence.required = true;
+      const placeholder = node('option','Choose a source record');
+      placeholder.value = '';
+      evidence.append(placeholder);
+      current().sources.forEach((source,sourceIndex) => {
+        const option = node('option',source.label);
+        option.value = sourceIndex;
+        evidence.append(option);
+      });
+      const evidenceLabel = node('label','Supporting source');
+      evidenceLabel.htmlFor = evidence.id;
+      group.append(node('legend',field.label),original,valueLabel,value,evidenceLabel,evidence);
+      list.append(group);
+    });
+    el('repair').hidden = false;
+    list.querySelector('input').focus();
+  }
+  function gradeCase(record, selected, readDraft) {
+    return record.fields.flatMap((field,index) => {
+      const flagged = selected.has(index);
+      if (!flagged && !field.answer) return [];
+      if (!field.answer) return [{kind:'extra',text:field.label + ' already matched the evidence.'}];
+      const fix = field.label + ' should be ' + field.answer + ' (' + record.sources[field.source].label + ').';
+      if (!flagged) return [{kind:'missed',text:'Missed discrepancy. ' + fix}];
+      const draft = readDraft(index);
+      const correctValue = field.accept.includes(normalize(draft.value));
+      const correctSource = draft.source === field.source;
+      return [{
+        kind:correctValue && correctSource ? 'correct' : 'unsupported',
+        text:correctValue && correctSource ? 'Verified correction filed. ' + fix :
+          (correctValue ? 'Correct value, but the cited source does not support it. ' : 'Correction needs review. ') + fix
+      }];
+    });
+  }
+  el('draft').addEventListener('click',draftAddendum);
+  el('edit-flags').addEventListener('click',() => {
+    stage = 'inspect';
+    el('repair').hidden = true;
+    renderChart();
+    el('chart').querySelector('button').focus();
+  });
+  el('repair-form').addEventListener('submit',event => {
+    event.preventDefault();
+    const results = gradeCase(current(),flags,index => ({
+      value:el('value-' + index).value,
+      source:Number(el('source-' + index).value)
+    }));
+    const correct = results.filter(result => result.kind === 'correct').length;
+    const extra = results.filter(result => result.kind === 'extra').length;
+    const total = current().fields.filter(field => field.answer).length;
+    stage = 'report';
+    el('repair').hidden = true;
+    el('report-title').textContent = correct === total && !extra ? 'Addendum verified' : 'Addendum review';
+    el('score').textContent = correct + ' of ' + total + ' corrections verified · ' + extra + (extra === 1 ? ' unnecessary flag' : ' unnecessary flags');
+    el('report-list').replaceChildren(...results.map(result => node('li',result.text)));
+    el('takeaway').textContent = current().takeaway;
+    el('next').textContent = caseIndex + 1 < cases.length ? 'Open next case' : 'Play both cases again';
+    el('report').hidden = false;
+    el('next').focus();
+  });
+  el('next').addEventListener('click',() => {
+    caseIndex = (caseIndex + 1) % cases.length;
+    loadCase();
+    el('source-controls').firstElementChild.focus();
+  });
+  el('reset').addEventListener('click',loadCase);
+  loadCase();
+})();
+</script>
+</body>
+</html>
