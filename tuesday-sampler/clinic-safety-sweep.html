@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clinic Safety Sweep · Created by ChatGPT</title>
+<style>
+:root{color-scheme:light;font:1rem/1.5 system-ui,sans-serif;color:#14382e;background:#eef4ef}
+*{box-sizing:border-box}
+body{margin:0}
+header{background:#133d30;color:#fff;border-bottom:5px solid #e8bc64}
+.wrap{width:min(58rem,100% - 2rem);margin:auto}
+header .wrap{padding:1.2rem 0}
+header p{color:#ffdf9b;margin:0}
+h1{font-size:clamp(1.9rem,5vw,3rem);line-height:1.1;margin:.3rem 0}
+main{padding:1rem 0 2rem}
+h2{margin:.2rem 0 .45rem;line-height:1.25}
+p{margin:.4rem 0 .75rem}
+.scene{position:relative;border:1px solid #58776a;border-radius:13px;overflow:hidden;background:#dfeee7}
+.scene svg{display:block;width:100%;height:auto}
+button{font:inherit;color:inherit;cursor:pointer}
+.hotspot{position:absolute;transform:translate(-50%,-50%);min-width:44px;min-height:44px;border:2px solid transparent;border-radius:9px;background:transparent;padding:0}
+.hotspot:hover{background:#ffffff35;border:2px dashed #153f32}
+.hotspot[data-mark=hazard]{background:#ffd06538;border:3px solid #704000}
+.hotspot[data-mark=clear]{background:#edf8eb35;border:3px solid #1f654a}
+.hotspot span{display:none;position:absolute;right:0;top:0;background:#153d31;color:white;font-weight:700;padding:0 .25rem;border-radius:3px}
+.hotspot[data-mark] span{display:block}
+:focus-visible{outline:3px solid #a04709;outline-offset:3px}
+.hotspot:focus-visible{outline:3px solid #173d32;outline-offset:1px;background:#ffffff50}
+.card{margin-top:1rem;padding:1rem;background:#fff;border:1px solid #bdd0c4;border-radius:12px}
+.pill{display:inline-block;border-radius:5px;padding:.18rem .5rem;font-weight:700;background:#dcebe0}
+.action{min-height:44px;border:1px solid #577769;border-radius:7px;background:#fff;padding:.45rem .65rem;text-align:left}
+.action:hover{background:#e5f0e8}
+.primary{background:#17563e;color:white}
+.primary:hover{background:#104330}
+.actions{display:flex;flex-wrap:wrap;gap:.45rem}
+#feedback:not(:empty){border-left:4px solid #9d651b;background:#fff3d9;padding:.55rem .75rem}
+details{margin-top:1rem}
+summary{cursor:pointer;padding:.35rem 0}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header><div class="wrap"><p>MEAS109 · Module 7 · Created by ChatGPT</p><h1>Clinic Safety Sweep</h1></div></header>
+<main class="wrap">
+<p>A patient is about to enter this exam room. Tap objects in the illustration to inspect them. Find <strong>three hazards</strong>, then decide what to address first.</p>
+<p class="pill" id="count" role="status">0 of 3 hazards found</p>
+<div class="scene" id="scene" aria-label="Illustrated exam room">
+<svg viewBox="0 0 760 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="room-title">
+<title id="room-title">Exam room with a sink, a cabinet, an exam table, a patient chair, and an exit door</title>
+<defs><linearGradient id="wall" x2="0" y2="1"><stop stop-color="#edf7f0"/><stop offset="1" stop-color="#cde4d9"/></linearGradient></defs>
+<path fill="url(#wall)" d="M0 0h760v285H0z"/>
+<path fill="#b9cdc3" d="M0 275h760v13H0z"/>
+<path fill="#e5dfcb" d="M0 288h760v162H0z"/>
+<path fill="none" stroke="#c6c4b3" stroke-width="2" d="M0 342h760M0 395h760M138 288 75 450m190-162-37 162m169-162 3 162m130-162 45 162m89-162 72 162"/>
+<path fill="#bddbd0" d="M0 0h34v275H0z"/>
+<!-- Sink and cabinet -->
+<ellipse cx="145" cy="305" rx="121" ry="20" fill="#b9c4af"/>
+<rect x="55" y="208" width="176" height="98" rx="4" fill="#4a8278"/>
+<path fill="none" stroke="#315d53" stroke-width="3" d="M140 220v77m-13-48v22m28-22v22"/>
+<rect x="44" y="200" width="194" height="20" rx="6" fill="#f8fbf5" stroke="#68877d" stroke-width="3"/>
+<ellipse cx="112" cy="205" rx="44" ry="7" fill="#9dbcb5"/>
+<path fill="none" stroke="#637f80" stroke-width="7" stroke-linecap="round" d="M116 201v-27q0-16-16-16t-16 13"/>
+<rect x="156" y="160" width="24" height="39" rx="5" fill="#f2cc79" stroke="#7a6240" stroke-width="2"/>
+<path stroke="#7a6240" stroke-width="3" fill="none" d="M168 160v-10h13"/>
+<rect x="196" y="102" width="53" height="69" rx="7" fill="#fcfcf8" stroke="#567469" stroke-width="3"/>
+<path fill="#c9d9d3" d="M205 145h35v10h-35z"/><path fill="#fff" d="M214 153h18v29h-18z"/>
+<!-- Wall frame and outlet -->
+<rect x="283" y="71" width="67" height="87" rx="6" fill="#fbfdf8" stroke="#567469" stroke-width="4"/>
+<path fill="#3b7865" d="M294 84h45v14h-45z"/><path stroke="#7c9a8c" stroke-width="3" d="M294 110h45m-45 11h45m-45 11h31"/>
+<rect x="523" y="223" width="27" height="41" rx="4" fill="#faf9ee" stroke="#70857b" stroke-width="2"/>
+<path stroke="#344f44" stroke-width="3" d="M532 235v6m9-6v6"/>
+<!-- Exam table -->
+<ellipse cx="405" cy="345" rx="155" ry="23" fill="#b8c3ae"/>
+<path fill="#70867f" d="M292 276h235l-21 63H314z"/>
+<rect x="318" y="286" width="179" height="44" rx="4" fill="#a5b8b0"/>
+<path stroke="#526e64" stroke-width="4" d="M335 303h146m-90 10h33"/>
+<path fill="#3a786d" stroke="#224e46" stroke-width="3" d="M271 241l40-72q6-9 17-4l88 38 106 8q11 1 11 12v28H282q-18 0-11-10z"/>
+<path fill="#fcfbef" stroke="#76867c" stroke-width="2" d="M320 170l89 40 105 7v18l-113-7-92-44z"/>
+<path fill="#42695d" d="M281 251h247v24H281z"/>
+<!-- Power cord with broken insulation -->
+<path fill="none" stroke="#303c3a" stroke-width="7" stroke-linecap="round" d="M538 247v45q0 11 15 15l11 3m28 10 14 5q16 6 18 17"/>
+<path fill="none" stroke="#a44724" stroke-width="3" d="M562 310l33 11m-32-14 33 10"/>
+<path stroke="#d08b31" stroke-width="3" d="M570 309l-2-11m12 14 5-9m-7 19-1 8"/>
+<!-- Exit and a supply carton in the doorway -->
+<rect x="619" y="70" width="110" height="219" rx="4" fill="#f7f9ec" stroke="#45675c" stroke-width="5"/>
+<path fill="#a0bdb0" d="M633 83h82v196h-82z"/>
+<path fill="#dbece1" d="M647 96h48v69h-48z"/>
+<path stroke="#45675c" stroke-width="5" stroke-linecap="round" d="M685 199h17"/>
+<rect x="637" y="31" width="73" height="29" rx="4" fill="#24634f"/>
+<text x="674" y="52" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#fff" font-weight="700">EXIT</text>
+<path fill="#c49862" stroke="#795a3d" stroke-width="3" d="M636 264l51-11 37 19v55l-47 14-41-22z"/>
+<path fill="#e6bd88" stroke="#795a3d" stroke-width="3" d="M636 264l51-11 37 19-47 14z"/>
+<path stroke="#795a3d" stroke-width="3" d="M677 286v55"/>
+<path fill="#f3dec3" d="M645 286l23 9v15l-23-9z"/>
+<!-- Chair and water on the walking path -->
+<ellipse cx="144" cy="367" rx="54" ry="12" fill="#bec7b3"/>
+<path stroke="#50625a" stroke-width="7" stroke-linecap="round" d="M110 323l-7 39m68-39 8 39"/>
+<path fill="#3e796f" stroke="#28594f" stroke-width="3" d="M94 264q0-10 11-10h58q11 0 11 10v47H94z"/>
+<rect x="92" y="310" width="91" height="17" rx="5" fill="#548d7c"/>
+<path fill="#9cc9d1" stroke="#507e90" stroke-width="2" d="M250 370q20-10 38-3t29 3q13 2 24 12t-9 15q-25 7-44 3t-40-1q-24-2-18-14 3-6 20-15z"/>
+<path fill="none" stroke="#eafaff" stroke-width="3" stroke-linecap="round" d="M252 384q9-5 20-3m20 11q14 3 24-1"/>
+<circle cx="343" cy="373" r="4" fill="#83b4c1"/><circle cx="227" cy="401" r="5" fill="#83b4c1"/>
+</svg>
+</div>
+<p id="feedback" role="status">Select an object to inspect it.</p>
+<details id="text-option"><summary>Inspect from a text list</summary><div class="actions" id="text-controls"></div></details>
+<section class="card" id="priority" hidden>
+<h2>What would you address first?</h2>
+<p>All three hazards are still present. A patient has just started walking toward the puddle.</p>
+<div class="actions" id="priority-controls"></div>
+</section>
+<section class="card" id="result" hidden>
+<h2>Sweep complete</h2>
+<p id="result-text" role="status"></p>
+<p><strong>CMA (AAMA) prep:</strong> When several hazards need attention, look for the clue that tells you who is at immediate risk.</p>
+<button type="button" class="action primary" id="restart">Play again</button>
+</section>
+</main>
+<script>
+(() => {
+  const get = id => document.getElementById(id);
+  const objects = [
+    {label:'Sink and soap', clue:'Sink with a soap dispenser', x:19,y:43,w:24,h:16, note:'The sink has soap available. Leave it ready for use.'},
+    {label:'Exam table', clue:'Exam table with a clean paper cover',x:52,y:53,w:30,h:21,note:'The exam table has a fresh cover in this scenario.'},
+    {label:'Patient chair', clue:'Chair fully off the walking path',x:19,y:72,w:15,h:18,note:'The chair sits clear of the walking path.'},
+    {label:'Walking path', clue:'Water pooled across the walking path',x:38,y:85,w:18,h:12,hazard:true,note:'The puddle is a slip hazard. Keep people off the wet area until it can be addressed.'},
+    {label:'Equipment cord', clue:'Power cord with visibly damaged insulation',x:75,y:71,w:11,h:11,hazard:true,note:'The damaged insulation makes the cord unsafe to use. Take the equipment out of use and report it through the clinic procedure.'},
+    {label:'Exit doorway', clue:'A supply carton sitting across the exit doorway',x:91,y:65,w:12,h:18,hazard:true,note:'The carton obstructs the exit. Clear the exit route according to the clinic procedure.'}
+  ];
+  const actions = [
+    {label:'Move the carton out of the exit',feedback:'The exit needs to be cleared. First, stop the patient from stepping into the wet area.'},
+    {label:'Keep the patient clear of the puddle',feedback:'Correct. The patient is about to step into the wet area. Protect them from the immediate slip hazard, then address the other findings.'},
+    {label:'Take the damaged equipment out of use',feedback:'The equipment needs attention. First, keep the approaching patient from stepping into the wet area.'}
+  ];
+  const found = new Set();
+  let attempts = 0;
+  function makeButton(label,style,click) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = style;
+    button.textContent = label;
+    button.addEventListener('click',click);
+    return button;
+  }
+  function inspect(index) {
+    const object = objects[index];
+    const marker = get('spot-' + index);
+    marker.dataset.mark = object.hazard ? 'hazard' : 'clear';
+    marker.firstElementChild.textContent = object.hazard ? '!' : '✓';
+    if(object.hazard) found.add(index);
+    get('count').textContent = found.size + ' of 3 hazards found';
+    get('feedback').textContent = object.note;
+    if(found.size === 3 && get('result').hidden) get('priority').hidden = false;
+  }
+  objects.forEach((object,index) => {
+    const spot = makeButton('','hotspot',() => inspect(index));
+    spot.id = 'spot-' + index;
+    spot.setAttribute('aria-label','Inspect ' + object.label);
+    Object.assign(spot.style,{left:object.x+'%',top:object.y+'%',width:object.w+'%',height:object.h+'%'});
+    const indicator = document.createElement('span');
+    indicator.setAttribute('aria-hidden','true');
+    spot.append(indicator);
+    get('scene').append(spot);
+    get('text-controls').append(makeButton(object.clue,'action',() => inspect(index)));
+  });
+  actions.forEach((action,index) => {
+    get('priority-controls').append(makeButton(action.label,'action',() => {
+      attempts++;
+      get('feedback').textContent = action.feedback;
+      if(index !== 1) return;
+      get('priority').hidden = true;
+      get('result-text').textContent = action.feedback + ' You found all three hazards and chose the priority action' + (attempts === 1 ? ' on your first try.' : '.');
+      get('result').hidden = false;
+      get('restart').focus();
+    }));
+  });
+  get('restart').addEventListener('click',() => {
+    found.clear();
+    attempts = 0;
+    objects.forEach((_,index) => {
+      const spot = get('spot-' + index);
+      delete spot.dataset.mark;
+      spot.firstElementChild.textContent = '';
+    });
+    get('priority').hidden = true;
+    get('result').hidden = true;
+    get('count').textContent = '0 of 3 hazards found';
+    get('feedback').textContent = 'Select an object to inspect it.';
+    get('spot-0').focus();
+  });
+})();
+</script>
+</body>
+</html>
