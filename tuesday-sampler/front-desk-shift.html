@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Front Desk Shift · Created by ChatGPT</title>
+<style>
+:root{font:1rem/1.5 system-ui,sans-serif;color:#17362c;background:#eff4ef;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0}
+header{background:#123c30;color:white;border-bottom:5px solid #e6b959;padding:1.1rem max(1rem,calc((100% - 65rem)/2))}
+header p{margin:0;color:#ffe1a0;font-size:.88rem}
+h1{margin:.15rem 0;font-size:clamp(1.8rem,5vw,2.6rem)}
+main{width:min(65rem,100% - 2rem);margin:1.3rem auto 2rem}
+.desk{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:1rem;align-items:start}
+.panel{background:white;border:1px solid #c6dbce;border-radius:14px;padding:1rem}
+h2,h3{margin:0 0 .55rem;line-height:1.25}
+p{margin:.45rem 0 .75rem}
+button,select{font:inherit;color:inherit;border:1px solid #537566;border-radius:8px;background:white;padding:.5rem .7rem;min-height:44px}
+button{cursor:pointer;text-align:left}
+button:hover:not(:disabled){background:#edf6ef}
+button.primary,button[aria-pressed=true]{background:#16573e;color:white}
+button.primary:hover:not(:disabled),button[aria-pressed=true]:hover{background:#104331}
+button:disabled{opacity:.72;cursor:default}
+:focus-visible{outline:3px solid #9b5700;outline-offset:2px}
+.badge{display:inline-block;padding:.2rem .55rem;border-radius:5px;background:#ebf2e9;color:#254936;font-weight:650;margin-bottom:.65rem}
+.queue{list-style:none;padding:0;margin:0 0 1rem;display:flex;flex-wrap:wrap;gap:.45rem}
+.queue li{padding:.25rem .5rem;border-radius:5px;background:#e0ece3}
+.queue li[aria-current=step]{background:#14553c;color:white}
+.slots{list-style:none;padding:0;margin:0;display:grid;gap:.45rem}
+.slots button{width:100%;display:grid;grid-template-columns:5.8rem 1fr;gap:.35rem;align-items:start;overflow-wrap:anywhere}
+.slots time{font-variant-numeric:tabular-nums;font-weight:700}
+.slots small{display:block;color:inherit}
+.call{padding:.65rem .8rem;border-left:4px solid #b88227;background:#fff7e5}
+label{display:block;font-weight:650;margin:.5rem 0 .15rem}
+select{width:100%}
+form .primary{margin-top:.85rem}
+#feedback{margin:.8rem 0 0}
+#feedback:not(:empty){padding:.7rem;background:#edf5ee;border-radius:8px}
+#feedback[data-tone=retry]{background:#fff3d7}
+#inbox-list{padding-left:1.3rem;margin-bottom:0}
+#inbox-list:empty{display:none}
+#report ul{padding-left:1.2rem}
+#next{margin-top:.65rem}
+[hidden]{display:none!important}
+@media(max-width:720px){.desk{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><p>MEAS109 · Module 3 · Created by ChatGPT</p><h1>Front Desk Shift</h1></header>
+<main>
+<p>Finish four clinic tasks. Tap a calendar slot to make a booking, or build and send a message when a caller needs a clinical callback.</p>
+<ol class="queue" aria-label="Shift tasks">
+<li>1. Reschedule</li><li>2. New intake</li><li>3. Route a message</li><li>4. Fill an opening</li>
+</ol>
+<div class="desk">
+<section class="panel" aria-labelledby="call-title">
+<div id="case">
+<span class="badge" id="case-number"></span>
+<h2 id="call-title"></h2>
+<p class="call" id="caller"></p>
+<p id="instruction"></p>
+</div>
+<form id="message" hidden>
+<label for="recipient">Send to</label>
+<select id="recipient" required>
+<option value="">Choose an inbox</option><option value="scheduling">Scheduling desk</option><option value="clinical">Clinical team</option><option value="billing">Billing</option>
+</select>
+<label for="callback">Callback number</label>
+<select id="callback" required>
+<option value="">Choose a number</option><option value="0148">555-0148 · caller confirmed</option><option value="0172">555-0172 · older chart number</option><option value="none">No number</option>
+</select>
+<label for="reason">Message to send</label>
+<select id="reason" required>
+<option value="">Choose a message</option><option value="reschedule">Patient wants to change appointment.</option><option value="interpret">Tell the patient the results are fine.</option><option value="review">Verified patient requests a callback about their test results.</option>
+</select>
+<button class="primary" type="submit">Send message</button>
+</form>
+<p id="feedback" role="status"></p>
+<button class="primary" id="next" type="button" hidden>Take the next call</button>
+<div id="report" hidden>
+<h2>Shift handoff</h2>
+<p id="report-score"></p>
+<ul id="report-list"></ul>
+<button class="primary" id="restart" type="button">Play another shift</button>
+</div>
+</section>
+<section class="panel" aria-labelledby="calendar-title">
+<h2 id="calendar-title">Monday appointment book</h2>
+<p id="calendar-hint"></p>
+<ol class="slots" id="calendar"></ol>
+<hr>
+<h3>Clinic inbox</h3>
+<p id="inbox-empty">No messages sent.</p>
+<ul id="inbox-list"></ul>
+</section>
+</div>
+</main>
+<script>
+(() => {
+  const byId = id => document.getElementById(id);
+  const calendar = byId('calendar');
+  const message = byId('message');
+  const feedback = byId('feedback');
+  const next = byId('next');
+  const initialSlots = [
+    { time:'9:00 a.m.', type:'Follow-up', duration:15, patient:'Casey Reed' },
+    { time:'9:15 a.m.', type:'Follow-up', duration:15, patient:'Morgan Lee' },
+    { time:'9:30 a.m.', type:'New intake', duration:30 },
+    { time:'10:00 a.m.', type:'Staff meeting', duration:30 },
+    { time:'10:30 a.m.', type:'Follow-up', duration:15 }
+  ];
+  const calls = [
+    { title:'Casey needs a later appointment', quote:'“I can’t make my 9:00 follow-up. Can you move me to any time after 10?”', task:'Tap Casey’s original appointment, then tap an open follow-up slot after 10:00.', action:'move' },
+    { title:'Avery is new to the clinic', quote:'“I’m a new patient. Is there any time before the staff meeting?”', task:'Book Avery Chen into an open 30-minute new-patient block.', action:'book', patient:'Avery Chen', slot:2 },
+    { title:'Drew calls about test results', quote:'“Could someone call me about my test results? I’m at 555-0148 today.”', task:'Drew’s identity is verified. Create a callback message using the number Drew confirmed today.', action:'message' },
+    { title:'A waitlisted patient can come in', quote:'“This is Riley Fox. I’m on your waitlist for a follow-up and can make any opening before 9:30.”', task:'Use the opening you created when you moved Casey’s appointment.', action:'book', patient:'Riley Fox', slot:0 }
+  ];
+  let slots, index, selected, locked, misses, history;
+  function setFeedback(text, retry = false) {
+    feedback.textContent = text;
+    feedback.dataset.tone = retry ? 'retry' : 'ok';
+  }
+  function renderCalendar(focusIndex) {
+    calendar.replaceChildren();
+    const active = index < calls.length && calls[index].action !== 'message' && !locked;
+    byId('calendar-hint').textContent = active ? 'Select an appointment or an opening.' : 'Current schedule';
+    slots.forEach((slot, slotIndex) => {
+      const item = document.createElement('li');
+      const control = document.createElement('button');
+      control.type = 'button';
+      control.disabled = !active;
+      control.setAttribute('aria-pressed', String(selected === slotIndex));
+      const time = document.createElement('time');
+      time.textContent = slot.time;
+      const detail = document.createElement('span');
+      detail.textContent = slot.patient || (slot.type === 'Staff meeting' ? 'Blocked' : 'Open');
+      const note = document.createElement('small');
+      note.textContent = slot.type + ' · ' + slot.duration + ' min';
+      detail.append(note);
+      control.append(time, detail);
+      control.addEventListener('click', () => chooseSlot(slotIndex));
+      item.append(control);
+      calendar.append(item);
+    });
+    if (focusIndex !== undefined) calendar.children[focusIndex].firstElementChild.focus();
+  }
+  function showCall() {
+    const call = calls[index];
+    selected = null;
+    locked = false;
+    byId('case-number').textContent = 'Task ' + (index + 1) + ' of ' + calls.length;
+    byId('call-title').textContent = call.title;
+    byId('caller').textContent = call.quote;
+    byId('instruction').textContent = call.task;
+    next.hidden = true;
+    message.hidden = call.action !== 'message';
+    for (const field of message.elements) field.disabled = false;
+    setFeedback('');
+    document.querySelectorAll('.queue li').forEach((item, step) => {
+      if (step === index) item.setAttribute('aria-current', 'step');
+      else item.removeAttribute('aria-current');
+    });
+    renderCalendar();
+  }
+  function retry(text) {
+    misses++;
+    setFeedback(text, true);
+  }
+  function complete(text) {
+    locked = true;
+    history.push(text);
+    setFeedback(text);
+    next.textContent = index === calls.length - 1 ? 'See your shift handoff' : 'Take the next call';
+    next.hidden = false;
+    renderCalendar();
+    next.focus();
+  }
+  function chooseSlot(slotIndex) {
+    if (locked) return;
+    const call = calls[index];
+    const slot = slots[slotIndex];
+    if (call.action === 'move') {
+      if (slotIndex === 0) {
+        selected = 0;
+        setFeedback('Casey’s 9:00 appointment is selected. Choose an open follow-up after 10:00.');
+        renderCalendar(slotIndex);
+        return;
+      }
+      if (selected === null) return retry('Start by selecting Casey’s original 9:00 appointment.');
+      if (slotIndex !== 4) return retry('That slot is booked, blocked, or the wrong visit type. Look for an open follow-up after 10:00.');
+      slot.patient = slots[0].patient;
+      delete slots[0].patient;
+      selected = null;
+      complete('Moved Casey to 10:30 a.m. The 9:00 follow-up slot is now open.');
+      return;
+    }
+    if (slotIndex !== call.slot) {
+      return retry(index === 1 ? 'Avery needs an open 30-minute new-intake slot before the staff meeting.' : 'Look for the 15-minute follow-up slot you freed before 9:30.');
+    }
+    slot.patient = call.patient;
+    complete('Booked ' + call.patient + ' at ' + slot.time + ' for a ' + slot.type.toLowerCase() + '.');
+  }
+  message.addEventListener('submit', event => {
+    event.preventDefault();
+    if (locked || calls[index].action !== 'message') return;
+    if (byId('recipient').value !== 'clinical') return retry('Test-result questions go to the clinical team in this simulation.');
+    if (byId('callback').value !== '0148') return retry('Use the callback number Drew confirmed during this call.');
+    if (byId('reason').value !== 'review') return retry('Document the callback request without interpreting the results.');
+    const item = document.createElement('li');
+    item.textContent = 'Clinical team · Drew · Test-results callback · 555-0148';
+    byId('inbox-list').append(item);
+    byId('inbox-empty').hidden = true;
+    for (const field of message.elements) field.disabled = true;
+    complete('Sent Drew’s test-results callback request to the clinical team.');
+  });
+  function showReport() {
+    byId('case').hidden = true;
+    next.hidden = true;
+    setFeedback('');
+    byId('report').hidden = false;
+    byId('report-score').textContent = '4 of 4 tasks completed · ' + misses + (misses === 1 ? ' retry' : ' retries');
+    const list = byId('report-list');
+    list.replaceChildren();
+    for (const text of history) {
+      const item = document.createElement('li');
+      item.textContent = text;
+      list.append(item);
+    }
+    document.querySelector('.queue li[aria-current]')?.removeAttribute('aria-current');
+    byId('restart').focus();
+  }
+  next.addEventListener('click', () => {
+    index++;
+    if (index === calls.length) showReport();
+    else {
+      showCall();
+      const target = calls[index].action === 'message' ? byId('recipient') : calendar.querySelector('button');
+      target.focus();
+    }
+  });
+  function start() {
+    slots = initialSlots.map(slot => ({...slot}));
+    index = 0;
+    misses = 0;
+    history = [];
+    message.reset();
+    byId('inbox-list').replaceChildren();
+    byId('inbox-empty').hidden = false;
+    byId('case').hidden = false;
+    byId('report').hidden = true;
+    showCall();
+  }
+  byId('restart').addEventListener('click', () => {
+    start();
+    calendar.querySelector('button').focus();
+  });
+  start();
+})();
+</script>
+</body>
+</html>
