@@ -256,17 +256,585 @@ const games = {
         "Arrange the interpreter when scheduling so the patient can participate in the full visit."
       ]
     ]
+  },
+  "chart-detective": {
+    "module": "4",
+    "title": "Chart Detective",
+    "intro": "Find and file the right information.",
+    "questions": [
+      [
+        "A lab report arrives for Jordan Lee, and two patients in the EHR share that name. What should you do first?",
+        [
+          "Match the report to the chart using approved patient identifiers",
+          "Use the chart with the most recent appointment",
+          "File a copy in both charts",
+          "Match by the ordering provider alone"
+        ],
+        0,
+        "Matching approved identifiers prevents wrong-chart filing."
+      ],
+      [
+        "A fax contains two pages and the second page belongs to a different patient. What is the next step?",
+        [
+          "Separate the documents and verify each patient before indexing",
+          "Scan both pages as one report",
+          "Index both pages to the first patient",
+          "Scan the first page and discard the second"
+        ],
+        0,
+        "Each document should be matched and filed separately."
+      ],
+      [
+        "A patient’s date of birth differs between a report and the chart. What should you do?",
+        [
+          "Hold the report for reconciliation using office procedure",
+          "Change the date in the chart to match the report",
+          "Index the report using only the name",
+          "Ask the patient to call the lab and close the task"
+        ],
+        0,
+        "A conflicting identifier needs reconciliation before filing."
+      ],
+      [
+        "Where should a signed consent be indexed in an EHR with a designated consent category?",
+        [
+          "The consent category in the verified patient’s chart",
+          "The billing notes for the visit",
+          "The provider’s personal inbox only",
+          "The closest available date in the chart"
+        ],
+        0,
+        "Correct indexing makes the signed form retrievable and supports continuity."
+      ],
+      [
+        "You find two charts that appear to belong to the same patient. How should you proceed?",
+        [
+          "Flag the possible duplicate through the approved reconciliation process",
+          "Merge the charts using the shared name",
+          "Delete the chart with fewer entries",
+          "Pick one chart and move future notes there"
+        ],
+        0,
+        "An authorized reviewer verifies duplicates before merging records."
+      ]
+    ]
+  },
+  "documentation-repair": {
+    "module": "4",
+    "title": "Documentation Repair",
+    "intro": "Make chart entries clear, objective, and traceable.",
+    "questions": [
+      [
+        "Which entry uses objective language?",
+        [
+          "Patient declined the handout and stated, “I will read it online.”",
+          "Patient was uncooperative and refused education.",
+          "Patient does not care about the instructions.",
+          "Patient was difficult and argumentative."
+        ],
+        0,
+        "Record observable actions and attributed statements."
+      ],
+      [
+        "An entry you signed contains an incorrect time. What should you do?",
+        [
+          "Use the authorized correction workflow so the original and change remain traceable",
+          "Delete the original entry and start again",
+          "Ask a coworker to overwrite it",
+          "Change the device clock and resave the entry"
+        ],
+        0,
+        "Traceable corrections preserve the record’s history."
+      ],
+      [
+        "You forgot to chart a phone call this morning. How do you document it now?",
+        [
+          "Enter a late note with the actual call time and current entry time",
+          "Backdate the new entry to appear contemporaneous",
+          "Enter it under a coworker’s account",
+          "Copy yesterday’s note and change the patient’s name"
+        ],
+        0,
+        "A late entry distinguishes the event time from the documentation time."
+      ],
+      [
+        "Which entry gives the clearest follow-up trail?",
+        [
+          "At 11:10 a.m., forwarded patient’s callback request to the nurse queue.",
+          "Provider aware.",
+          "Patient called again.",
+          "I took care of it."
+        ],
+        0,
+        "An action, time, and destination help the next team member follow up."
+      ],
+      [
+        "You find a copied note listing a task you did not perform. What should you do before signing?",
+        [
+          "Remove or correct inaccurate text and verify the remaining entry",
+          "Sign it because it came from an approved template",
+          "Leave it for the next person to fix",
+          "Change the wording without checking whether it happened"
+        ],
+        0,
+        "The signer must verify that the entry accurately reflects the encounter."
+      ]
+    ]
+  },
+  "records-relay": {
+    "module": "4",
+    "title": "Records Relay",
+    "intro": "Handle chart requests and incoming records.",
+    "questions": [
+      [
+        "An outside office requests records but the destination fax number is unfamiliar. What should you do before sending?",
+        [
+          "Verify the destination through an approved source and follow the release workflow",
+          "Use the fax number written in the email signature",
+          "Send a test page from the chart",
+          "Send the full chart to the number used last time"
+        ],
+        0,
+        "Verify the recipient and follow the office release procedure."
+      ],
+      [
+        "A patient asks for a copy of their own records. What should the MA do?",
+        [
+          "Explain the office access-request process and route the request",
+          "Tell the patient records can only go to another clinician",
+          "Ask the patient why they need a copy before accepting the request",
+          "Print the chart and leave it at reception"
+        ],
+        0,
+        "Use the designated process for identity verification and fulfillment."
+      ],
+      [
+        "A records request specifies only two visit notes. What should you check before processing it?",
+        [
+          "The request’s scope and the approved release instructions",
+          "Whether all notes can fit in one fax",
+          "Whether the patient has a future appointment",
+          "Whether the receiving office prefers a full chart"
+        ],
+        0,
+        "Check the request and release workflow to avoid sending unrelated records."
+      ],
+      [
+        "An incoming specialist report is filed. Which step supports follow-up?",
+        [
+          "Route it for designated review using the clinic’s workflow",
+          "Assume the specialist already notified everyone",
+          "Remove the routing task since the report is visible in the chart",
+          "Send it to the patient as the first step"
+        ],
+        0,
+        "Filing and routing are separate steps when review is required."
+      ],
+      [
+        "A fax confirmation shows that a record was sent to the wrong number. What should you do?",
+        [
+          "Promptly follow the clinic’s privacy incident procedure",
+          "Delete the confirmation and resend the record",
+          "Wait to see if the recipient calls",
+          "Send the rest of the chart to the correct number first"
+        ],
+        0,
+        "Prompt reporting allows designated staff to assess and address the incident."
+      ]
+    ]
+  },
+  "consent-checkpoint": {
+    "module": "5",
+    "title": "Consent Checkpoint",
+    "intro": "Respond to consent and refusal scenarios.",
+    "questions": [
+      [
+        "A patient is about to sign a procedure consent but asks about a risk the MA cannot explain. What comes next?",
+        [
+          "Pause and have the authorized clinician address the question",
+          "Read the form faster and point to the signature line",
+          "Tell the patient that signing is routine",
+          "Sign as witness while the patient decides"
+        ],
+        0,
+        "Unanswered procedure questions should go to the clinician responsible for explaining the procedure."
+      ],
+      [
+        "A patient who signed consent now says they want to stop before the procedure begins. What should the MA do?",
+        [
+          "Pause preparations and notify the clinician",
+          "Continue because the form is signed",
+          "Ask a family member to override the patient",
+          "Mark the procedure complete and document the refusal later"
+        ],
+        0,
+        "A patient’s decision to stop should be respected and communicated promptly."
+      ],
+      [
+        "A coworker asks you to witness a signature you did not observe. How should you respond?",
+        [
+          "Decline and follow the approved witnessing process",
+          "Sign if the signature matches the chart",
+          "Sign if the coworker confirms it",
+          "Use the patient’s initials in place of your own"
+        ],
+        0,
+        "A witness signature must accurately represent what was witnessed."
+      ],
+      [
+        "A patient nods but says they did not understand the explanation. What action supports informed decision-making?",
+        [
+          "Arrange approved communication support and ask the clinician to clarify",
+          "Ask the patient to sign because they nodded",
+          "Have another patient explain the procedure",
+          "Skip the explanation and record verbal consent"
+        ],
+        0,
+        "The patient needs an opportunity to understand and ask questions."
+      ],
+      [
+        "A consent form identifies a procedure that differs from the scheduled one. What is the best next action?",
+        [
+          "Pause and have the discrepancy reconciled before proceeding",
+          "Cross out the procedure and write the scheduled one",
+          "Use the appointment schedule as the final authority",
+          "Ask the patient to choose which procedure was intended"
+        ],
+        0,
+        "Resolve discrepancies before advancing the procedure."
+      ]
+    ]
+  },
+  "scope-signal": {
+    "module": "5",
+    "title": "Scope Signal",
+    "intro": "Recognize when to pause and escalate.",
+    "questions": [
+      [
+        "A provider asks an MA to perform a task the MA has never been trained or authorized to perform. What should the MA do?",
+        [
+          "Pause and clarify authorization and competency before acting",
+          "Proceed because the provider requested it",
+          "Ask the patient whether it is acceptable",
+          "Have another MA walk through the steps while performing it"
+        ],
+        0,
+        "A request does not establish training or authorization."
+      ],
+      [
+        "A patient asks whether their symptoms mean they have diabetes. What response fits the MA role?",
+        [
+          "Collect the concern and route it to the clinician",
+          "Tell the patient diabetes is likely",
+          "Interpret a prior result for the patient",
+          "Tell the patient a diagnosis can wait until next year"
+        ],
+        0,
+        "Collect and communicate relevant information while the clinician evaluates the concern."
+      ],
+      [
+        "A coworker says that a task allowed at a previous employer must be allowed here. What should you check?",
+        [
+          "Applicable state requirements and current office delegation and competency policies",
+          "Whether patients object to the task",
+          "Whether it was included in the coworker’s job title",
+          "How often the previous office performed it"
+        ],
+        0,
+        "Authorization depends on applicable requirements and the current practice’s policies."
+      ],
+      [
+        "The written order and the clinician’s verbal instruction conflict. What should the MA do?",
+        [
+          "Pause and clarify the instruction through the approved process",
+          "Pick the instruction that was given last",
+          "Follow the written order and mention the conflict afterward",
+          "Ask the patient which instruction sounds right"
+        ],
+        0,
+        "Clarify conflicting directions before acting."
+      ],
+      [
+        "A patient asks you to adjust the dose on a prescription because the medication is expensive. What is appropriate?",
+        [
+          "Communicate the concern to the authorized clinician",
+          "Suggest taking half the dose",
+          "Rewrite the instructions to stretch the supply",
+          "Ask the patient to skip doses on alternate days"
+        ],
+        0,
+        "Medication changes require an authorized clinician’s decision."
+      ]
+    ]
+  },
+  "risk-response": {
+    "module": "5",
+    "title": "Risk Response",
+    "intro": "Identify risks, report incidents, and document facts.",
+    "questions": [
+      [
+        "You catch a wrong-patient label before a specimen leaves the room. What is the best next step?",
+        [
+          "Stop the process, resolve the label per policy, and report the near miss",
+          "Send the specimen and call the lab later",
+          "Replace the label from memory",
+          "Discard the label without documenting the near miss"
+        ],
+        0,
+        "Near-miss reporting helps the clinic identify and correct unsafe processes."
+      ],
+      [
+        "A patient trips in the lobby. After the immediate response, what belongs in an incident report?",
+        [
+          "Observable facts, time, location, and actions taken",
+          "A conclusion that the patient caused the fall",
+          "An estimate of the clinic’s legal liability",
+          "A coworker’s unrelated past errors"
+        ],
+        0,
+        "Report the facts and actions through the designated incident process."
+      ],
+      [
+        "A coworker tells you to change a timestamp to hide a delay. What should you do?",
+        [
+          "Keep the record accurate and report the request through the proper channel",
+          "Change it because no one was harmed",
+          "Delete the entry and make a new one",
+          "Ask the coworker to log in and change it"
+        ],
+        0,
+        "Accurate records and prompt escalation protect patients and the integrity of the chart."
+      ],
+      [
+        "A visitor reports liquid on the waiting-room floor. What should you do first?",
+        [
+          "Protect people from the hazard and arrange cleanup per policy",
+          "Wait for the next scheduled inspection",
+          "Leave a note at the desk and finish the shift",
+          "Ask the visitor to walk around it and take no further action"
+        ],
+        0,
+        "Act on the immediate risk and follow the site’s hazard process."
+      ],
+      [
+        "You see repeated specimen-labeling mix-ups near the printer. What information best supports improvement?",
+        [
+          "When and where the mix-ups occur and the workflow steps involved",
+          "A list of coworkers you think are careless",
+          "Only the most serious example",
+          "How long the printer has been installed"
+        ],
+        0,
+        "Specific process observations help the team identify recurring hazards."
+      ]
+    ]
+  },
+  "privacy-patrol": {
+    "module": "6",
+    "title": "Privacy Patrol",
+    "intro": "Protect patient information in everyday office situations.",
+    "questions": [
+      [
+        "An employee asks you to open a neighbor’s chart out of curiosity. How do you respond?",
+        [
+          "Decline because there is no work-related reason for access",
+          "Open the chart if the employee also works at the clinic",
+          "Show only the appointment date",
+          "Check the chart after closing time"
+        ],
+        0,
+        "Access patient records for authorized work purposes."
+      ],
+      [
+        "A billing task requires a limited set of information. What should you access?",
+        [
+          "The information needed for that authorized task",
+          "The complete chart to be thorough",
+          "The chart of another family member for comparison",
+          "Only the patient’s social media profile"
+        ],
+        0,
+        "Limit access for the billing task to information needed for the purpose."
+      ],
+      [
+        "You need to step away from a chart open at a shared workstation. What should you do?",
+        [
+          "Lock the workstation before leaving",
+          "Leave the chart open if stepping away briefly",
+          "Dim the screen and keep it unlocked",
+          "Ask a visitor to watch the desk"
+        ],
+        0,
+        "Locking the workstation helps prevent unauthorized access."
+      ],
+      [
+        "A caller asks whether their adult coworker was seen today. What should you do?",
+        [
+          "Follow the privacy verification and disclosure procedure without confirming the visit",
+          "Confirm the visit but withhold the reason",
+          "Confirm only the time the patient arrived",
+          "Offer to transfer the call to the exam room"
+        ],
+        0,
+        "Even confirming a visit may disclose patient information."
+      ],
+      [
+        "You notice an encounter summary on a printer accessible to visitors. What is the best response?",
+        [
+          "Secure it promptly and follow office incident procedures if exposure may have occurred",
+          "Leave it there for the person who printed it",
+          "Put it in regular recycling",
+          "Read it aloud to identify the owner"
+        ],
+        0,
+        "Secure unattended information and use the designated process for possible exposure."
+      ]
+    ]
+  },
+  "ethics-in-action": {
+    "module": "6",
+    "title": "Ethics in Action",
+    "intro": "Make professional choices in challenging encounters.",
+    "questions": [
+      [
+        "A patient declines an optional service after getting an explanation. What is the best response?",
+        [
+          "Respect the decision and document or route it as appropriate",
+          "Continue because the clinic recommends it",
+          "Ask the patient to sign a statement agreeing to the service",
+          "Withhold other services until they agree"
+        ],
+        0,
+        "Respect for patient autonomy includes the right to decline."
+      ],
+      [
+        "A patient asks you to post their success story on your personal account. What should you do?",
+        [
+          "Follow the clinic’s policy and route any proposed public use through its approval process",
+          "Post it if the patient asked in person",
+          "Use their initials and post immediately",
+          "Post it if they follow your account"
+        ],
+        0,
+        "Public sharing needs the designated process and safeguards for patient information."
+      ],
+      [
+        "A coworker jokes about a patient within earshot of others. What response is appropriate?",
+        [
+          "Address or escalate the concern through the office’s professional conduct process",
+          "Join in to avoid embarrassing the coworker",
+          "Repeat the joke in a staff group chat",
+          "Tell waiting patients which person was discussed"
+        ],
+        0,
+        "Protect patient dignity and handle misconduct through the proper channel."
+      ],
+      [
+        "A family friend asks to skip ahead of other patients without a clinical reason. What should the MA do?",
+        [
+          "Apply the clinic’s scheduling and priority rules consistently",
+          "Move the friend ahead because the request is personal",
+          "Cancel another patient to free a slot",
+          "Give the friend access to the scheduling screen"
+        ],
+        0,
+        "Consistent use of scheduling criteria supports fairness."
+      ],
+      [
+        "An MA discovers they gave a patient the wrong printed instructions. What is the professional next step?",
+        [
+          "Notify the appropriate team member and correct the error through office procedure",
+          "Wait for the patient to report a problem",
+          "Remove the copy from the chart without telling anyone",
+          "Ask a coworker to take responsibility"
+        ],
+        0,
+        "Prompt, honest reporting lets the team correct misinformation."
+      ]
+    ]
+  },
+  "reporting-ready": {
+    "module": "6",
+    "title": "Reporting Ready",
+    "intro": "Recognize and respond to a reportable concern.",
+    "questions": [
+      [
+        "In an Indiana clinic, an MA has reason to believe a child is being neglected. What should happen?",
+        [
+          "Make the required report promptly through the designated reporting channel",
+          "Wait until there is proof",
+          "Ask the caregiver for permission before reporting",
+          "Save the concern for the next staff meeting"
+        ],
+        0,
+        "Indiana requires reporting when there is reason to believe a child is abused or neglected."
+      ],
+      [
+        "A coworker says to interview the child repeatedly before making a report. What is the best response?",
+        [
+          "Report the concern promptly and leave investigation to the appropriate authorities",
+          "Delay until the child repeats the same story several times",
+          "Question the caregiver first to verify the story",
+          "Ask other patients what they observed"
+        ],
+        0,
+        "A report does not require the MA to investigate or prove the concern."
+      ],
+      [
+        "Which statement is appropriate for documenting a concern about suspected abuse?",
+        [
+          "Child stated, “I am afraid to go home.”",
+          "The caregiver is guilty.",
+          "This family is probably lying.",
+          "The story sounds exaggerated."
+        ],
+        0,
+        "Record exact statements and observable facts rather than conclusions."
+      ],
+      [
+        "A child asks you to promise that you will tell no one about a safety concern. What should you say?",
+        [
+          "Explain calmly that you may need to share the concern with people who can help",
+          "Promise secrecy so the child will keep talking",
+          "Say everyone in the clinic will hear the story",
+          "Tell the child the issue can only be discussed with a caregiver"
+        ],
+        0,
+        "Be supportive and honest about sharing information with the appropriate people."
+      ],
+      [
+        "You told your supervisor about suspected child abuse. What should you verify next?",
+        [
+          "That the legally required report is made promptly and your reporting obligation is fulfilled",
+          "That the concern is removed from the chart",
+          "That no report is made until the clinic receives a subpoena",
+          "That a family member approves the report"
+        ],
+        0,
+        "Internal notification alone should not be treated as completing an external reporting obligation."
+      ]
+    ]
   }
 };
 const launchUrl = new URL(location.href);
 launchUrl.hash = '';
 launchUrl.searchParams.delete('room');
 const requestedGame = launchUrl.searchParams.get('game');
+const moduleTitles = {
+  '3': 'Telecommunications and Appointment Scheduling',
+  '4': 'Managing Medical Records',
+  '5': 'Law, Regulation and Risk Management',
+  '6': 'Ethics, HIPAA and Mandatory Reporting'
+};
 const game = Object.hasOwn(games, requestedGame) ? games[requestedGame] : games['front-desk-rush'];
+const moduleNumber = launchUrl.searchParams.get('module');
+const isHub = !requestedGame && Object.hasOwn(moduleTitles, moduleNumber);
+const currentModule = isHub ? moduleNumber : game.module || '3';
 const decks = [game];
-document.title = 'M3 CH14 · ' + game.title;
-document.querySelector('header h1').textContent = game.title;
-document.getElementById('gameIntro').textContent = game.intro;
+document.title = 'M' + currentModule + ' · ' + (isHub ? 'Live Review Games' : game.title);
+document.querySelector('header small').textContent = 'MEAS109 · MODULE ' + currentModule;
+document.querySelector('header h1').textContent = isHub ? moduleTitles[currentModule] : game.title;
+document.getElementById('gameIntro').textContent = isHub ? 'Live review before the Knowledge Check' : game.intro;
 function studentUrl() {
   const url = new URL(launchUrl);
   url.searchParams.set('room', room);
@@ -281,6 +849,19 @@ function ranks(){return [...players.values()].sort((a,b)=>b.score-a.score||a.nam
 function board(rows){return '<table><caption>Live leaderboard</caption><thead><tr><th scope="col">Rank</th><th scope="col">Player</th><th scope="col">Points</th></tr></thead><tbody>'+rows.map((p,i)=>'<tr><td>'+ (i+1)+'</td><td>'+esc(p.name)+(p.done?' ✓':'')+'</td><td>'+p.score+'</td></tr>').join('')+'</tbody></table>'}
 function broadcast(){const state={type:'board',rows:ranks()};for(const p of players.values())if(p.c?.open)p.c.send(state);if(host)hostView()}
 function home(){phase='home';view('<div class="grid"><section class="card"><h2>Play with your class</h2><p>Live pre-KC review: enter the code your instructor provides in class and a display name.</p><form id="join"><label>Game code<input id="code" required maxlength="8" autocomplete="off" value="'+esc(new URLSearchParams(location.search).get('room')||'')+'"></label><label>Display name<input id="name" required maxlength="24" autocomplete="nickname"></label><button>Join game</button></form></section><section class="card instructor-only"><h2>Instructor studio</h2><p>Choose a game, invite students, and start the whole class together.</p><label>Question set<select id="deck">'+decks.map((d,i)=>'<option value="'+i+'">'+esc(d.title)+' · '+d.questions.length+' questions</option>').join('')+'</select></label><label>Play style<select id="mode"><option value="race">Independent race · students advance themselves</option><option value="paced">Instructor paced · one question together</option></select></label><label>Time per question<select id="seconds"><option>15</option><option>25</option><option selected>30</option><option>45</option><option>60</option></select></label><button id="host">Host live game</button><p><button class="secondary" id="editor">Create a question set</button></p><p class="muted">Live play uses PeerJS connections. Test on your classroom Wi-Fi before class. Scores stay in this session; download results before closing.</p></section></div>');$('join').onsubmit=e=>{e.preventDefault();join()};$('host').onclick=()=>create(false);$('editor').onclick=editor}
+function gameHub(){
+  const options = Object.entries(games).filter(([,item]) => (item.module || '3') === currentModule);
+  const intro = instructorAccess
+    ? 'Choose a round, open the lobby, and project the QR code when you are ready for students to join.'
+    : 'Choose the round your instructor announces. Enter the room code and a display name to join.';
+  view('<section class="card"><h2>'+(instructorAccess ? 'Instructor launch' : 'Choose a live game')+'</h2><p>'+intro+'</p><ul>'+
+    options.map(([slug,item])=>{
+      const url = new URL(launchUrl);
+      url.searchParams.set('game',slug);
+      if(instructorAccess) url.hash=location.hash;
+      return '<li><p><a class="button" href="'+esc(url.href)+'">'+(instructorAccess ? 'Host ' : 'Join ')+esc(item.title)+'</a></p><p>'+esc(item.intro)+'</p></li>';
+    }).join('')+'</ul></section>');
+}
 function editor(){view('<section class="card"><h2>Create a question set</h2><p>Enter a title and edit the example below. Each question needs four choices, a correct answer number from 1–4, and feedback. Save the JSON file to reuse on another computer.</p><label>Title<input id="title" value="My classroom challenge"></label><label>Questions (JSON)<textarea id="json"></textarea></label><button id="use">Use question set</button> <button class="secondary" id="download">Download set</button><label style="margin-top:20px">Load a saved question set<input id="file" type="file" accept=".json,application/json"></label><button class="secondary" id="back">Back</button></section>');$('json').value=JSON.stringify([{question:'Which prefix means slow?',choices:['brady-','tachy-','hyper-','peri-'],answer:1,feedback:'Brady- means slow.'}],null,2);function read(){let q=JSON.parse($('json').value);if(!Array.isArray(q)||!q.length||q.length>100)throw Error('Use 1–100 questions.');q.forEach(x=>{if(typeof x.question!=='string'||!x.question.trim()||!Array.isArray(x.choices)||x.choices.length!==4||x.choices.some(c=>typeof c!=='string'||!c.trim())||!Number.isInteger(x.answer)||x.answer<1||x.answer>4||typeof x.feedback!=='string')throw Error('Check the question format, four choices, answer (1–4), and feedback.');});return {title:$('title').value.trim().slice(0,100)||'My challenge',questions:q}}
 $('use').onclick=()=>{try{const d=read();decks.push({title:d.title,questions:d.questions.map(q=>[q.question,q.choices,q.answer-1,q.feedback])});home();$('deck').value=decks.length-1;note('Your question set is ready. Download it from the editor if you want to keep a copy.')}catch(e){note(e.message)}};
 $('download').onclick=()=>{try{download('question-set.json',JSON.stringify(read(),null,2),'application/json')}catch(e){note(e.message)}};
@@ -297,7 +878,7 @@ function shuffleDeckAnswers(source){
   })};
 }
 function create(solo){if(solo){note('This game is available only during a live class review.');return}if(!instructorAccess){note('Open the instructor launch link in Canvas to host.');return}deck=shuffleDeckAnswers(decks[Number($('deck').value)]);mode=$('mode').value;seconds=Number($('seconds').value);local=solo;note('');if(solo){host=false;ownScore=0;index=0;phase='playing';question(deck.questions[0],0);return}if(!window.Peer){note('The live connection service did not load. Check your connection and try again.');return}host=true;phase='lobby';room=Array.from(crypto.getRandomValues(new Uint8Array(6)),n=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[n%32]).join('');peer=new Peer('ivy-cma-'+room);peer.on('open',()=>{hostView();note('Room ready. Students can join now.')});peer.on('error',e=>note('Connection problem: '+e.type+'. Please return home and try again.'));peer.on('connection',c=>{c.on('data',d=>receive(c,d));c.on('close',()=>{let p=players.get(c.peer);if(p){p.c=null;broadcast()}})});view('<section class="card"><h2>Opening your classroom…</h2></section>')}
-function hostView(){view('<section class="card"><span class="pill">'+esc(deck.title)+'</span><span class="pill">'+(mode==='race'?'Independent race':'Instructor paced')+'</span><h2>'+(phase==='lobby'?'Your class is invited':phase==='finished'?'Final results':'Game in progress')+'</h2><div class="code">'+room+'</div><div class="join-panel"><div><h3>Scan to join</h3><div id="joinQr" class="join-qr" role="img" aria-label="QR code to join this game" data-join-url="'+esc(studentUrl())+'"></div></div><div class="join-steps"><h3>Or open IvyLearn</h3><p>In Module 3, choose <strong>'+esc(game.title)+'</strong> under the live review games.</p><p>Enter the <strong>six-character code above</strong> and your display name.</p><a class="button" target="_blank" rel="noopener" href="'+esc(studentUrl())+'">Open student join page</a></div></div><p>'+players.size+' players · '+[...players.values()].filter(p=>p.c?.open).length+' connected</p><div id="controls"></div></section><section class="card" id="hostQuestion"></section><section class="card">'+board(ranks())+'</section>');if(phase==='lobby'){$('controls').innerHTML='<button id="start" '+(!players.size?'disabled':'')+'>Start game</button>';$('start').onclick=()=>{phase='playing';note('Game started. Keep this tab open.');startAt=Date.now();index=0;for(const p of players.values()){p.i=0;p.score=0;sendQuestion(p)}broadcast();if(mode==='paced')schedulePaced()}}else if(phase==='playing'){$('controls').innerHTML='<button id="end">End game and show results</button>';$('end').onclick=finish;if(mode==='paced'){$('hostQuestion').innerHTML='<p>Question '+(index+1)+' of '+deck.questions.length+'</p><h2>'+esc(deck.questions[index][0])+'</h2><div class="answers">'+deck.questions[index][1].map(c=>'<div class="card">'+esc(c)+'</div>').join('')+'</div><p id="hostTime" class="timer"></p>';if([...players.values()].every(p=>p.answered)){$('hostQuestion').innerHTML+='<p>Correct answer: '+esc(deck.questions[index][1][deck.questions[index][2]])+'</p><p>'+esc(deck.questions[index][3])+'</p><button id="next">Next question</button>';$('next').onclick=nextPaced}}else{$('hostQuestion').innerHTML='<h2>Students are racing independently</h2><p>Each question has a '+seconds+'-second limit. Correct answers earn 100 points. Faster correct answers earn up to 50 bonus points.</p>'}}else{$('controls').innerHTML='<button id="csv">Download results</button> <button class="secondary" id="again">New game</button>';$('csv').onclick=()=>download('classroom-results.csv','Rank,Display name,Points\r\n'+ranks().map((p,i)=>[i+1,'"'+(' '+p.name).replace(/"/g,'""')+'"',p.score].join(',')).join('\r\n'),'text/csv');$('again').onclick=()=>location.href=launchUrl.href+location.hash}}
+function hostView(){view('<section class="card"><span class="pill">'+esc(deck.title)+'</span><span class="pill">'+(mode==='race'?'Independent race':'Instructor paced')+'</span><h2>'+(phase==='lobby'?'Your class is invited':phase==='finished'?'Final results':'Game in progress')+'</h2><div class="code">'+room+'</div><div class="join-panel"><div><h3>Scan to join</h3><div id="joinQr" class="join-qr" role="img" aria-label="QR code to join this game" data-join-url="'+esc(studentUrl())+'"></div></div><div class="join-steps"><h3>Or open IvyLearn</h3><p>In Module '+esc(currentModule)+', choose <strong>'+esc(game.title)+'</strong> under the live review games.</p><p>Enter the <strong>six-character code above</strong> and your display name.</p><a class="button" target="_blank" rel="noopener" href="'+esc(studentUrl())+'">Open student join page</a></div></div><p>'+players.size+' players · '+[...players.values()].filter(p=>p.c?.open).length+' connected</p><div id="controls"></div></section><section class="card" id="hostQuestion"></section><section class="card">'+board(ranks())+'</section>');if(phase==='lobby'){$('controls').innerHTML='<button id="start" '+(!players.size?'disabled':'')+'>Start game</button>';$('start').onclick=()=>{phase='playing';note('Game started. Keep this tab open.');startAt=Date.now();index=0;for(const p of players.values()){p.i=0;p.score=0;sendQuestion(p)}broadcast();if(mode==='paced')schedulePaced()}}else if(phase==='playing'){$('controls').innerHTML='<button id="end">End game and show results</button>';$('end').onclick=finish;if(mode==='paced'){$('hostQuestion').innerHTML='<p>Question '+(index+1)+' of '+deck.questions.length+'</p><h2>'+esc(deck.questions[index][0])+'</h2><div class="answers">'+deck.questions[index][1].map(c=>'<div class="card">'+esc(c)+'</div>').join('')+'</div><p id="hostTime" class="timer"></p>';if([...players.values()].every(p=>p.answered)){$('hostQuestion').innerHTML+='<p>Correct answer: '+esc(deck.questions[index][1][deck.questions[index][2]])+'</p><p>'+esc(deck.questions[index][3])+'</p><button id="next">Next question</button>';$('next').onclick=nextPaced}}else{$('hostQuestion').innerHTML='<h2>Students are racing independently</h2><p>Each question has a '+seconds+'-second limit. Correct answers earn 100 points. Faster correct answers earn up to 50 bonus points.</p>'}}else{$('controls').innerHTML='<button id="csv">Download results</button> <button class="secondary" id="again">New game</button>';$('csv').onclick=()=>download('classroom-results.csv','Rank,Display name,Points\r\n'+ranks().map((p,i)=>[i+1,'"'+(' '+p.name).replace(/"/g,'""')+'"',p.score].join(',')).join('\r\n'),'text/csv');$('again').onclick=()=>location.href=launchUrl.href+location.hash}}
 function receive(c,d){if(!d||typeof d!=='object')return;if(d.type==='join'){if(phase!=='lobby'){c.send({type:'error',message:'This game has started. Join the next round.'});return}if(players.has(c.peer))return;const name=String(d.name||'').trim().slice(0,24);if(!name)return;if([...players.values()].some(p=>p.name.toLowerCase()===name.toLowerCase())){c.send({type:'error',message:'That display name is taken. Add an initial or number.'});return}if(players.size>=60){c.send({type:'error',message:'This room is full.'});return}players.set(c.peer,{c,name,score:0,i:0,answered:false});c.send({type:'welcome',title:deck.title});broadcast()}const p=players.get(c.peer);if(!p||phase!=='playing')return;if(d.type==='answer')grade(p,d);if(d.type==='next'&&mode==='race'&&p.answered){p.i++;sendQuestion(p);broadcast();if([...players.values()].every(x=>x.i>=deck.questions.length))finish()}}
 function sendQuestion(p){if(p.i>=deck.questions.length){p.c?.send({type:'done',score:p.score,rows:ranks()});return}p.answered=false;p.result=null;p.sent=Date.now();p.c?.send({type:'question',q:deck.questions[p.i][0],choices:deck.questions[p.i][1],i:p.i,total:deck.questions.length,seconds,mode});}
 function grade(p,d){if(p.answered||d.i!==p.i||!Number.isInteger(d.choice)||d.choice< -1||d.choice>3)return;p.answered=true;const q=deck.questions[p.i],elapsed=Date.now()-p.sent,correct=d.choice===q[2]&&elapsed<=seconds*1000;const points=correct?100+Math.max(0,Math.round(50*(1-elapsed/(seconds*1000)))):0;p.score+=points;p.result={type:'result',correct,answer:q[1][q[2]],feedback:q[3],points,score:p.score,mode};p.c?.send(p.result);broadcast()}
@@ -310,5 +891,5 @@ function studentReceive(d){if(d.type==='error'){note(d.message);return}if(d.type
 function question(q,i,total=deck?.questions.length){clearInterval(timer);answered=false;const stamp=++session;startAt=Date.now();view('<section class="card"><span class="pill">Question '+(i+1)+' of '+total+'</span><span id="clock" class="timer">'+seconds+'</span><div class="progress"><div id="bar" style="width:100%"></div></div><h2>'+esc(q[0])+'</h2><div class="answers">'+q[1].map((c,j)=>'<button data-choice="'+j+'">'+String.fromCharCode(65+j)+'. '+esc(c)+'</button>').join('')+'</div><div id="feedback" aria-live="polite"></div></section><section id="leader" class="card">'+(latestRows.length?board(latestRows):'Your score will appear after your answer.')+'</section>');document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>answer(Number(b.dataset.choice)));timer=setInterval(()=>{if(stamp!==session)return;const remaining=Math.max(0,seconds-(Date.now()-startAt)/1000);$('clock').textContent=Math.ceil(remaining);$('bar').style.width=(remaining/seconds*100)+'%';if(remaining<=0)answer(-1)},100)}
 function answer(choice){if(answered||phase!=='playing')return;answered=true;clearInterval(timer);document.querySelectorAll('[data-choice]').forEach(b=>b.disabled=true);if(local){const q=deck.questions[index],elapsed=Date.now()-startAt,correct=choice===q[2]&&elapsed<=seconds*1000,points=correct?100+Math.max(0,Math.round(50*(1-elapsed/(seconds*1000)))):0;ownScore+=points;result({correct,answer:q[1][q[2]],feedback:q[3],points,score:ownScore,mode:'race'})}else if(link?.open){$('feedback').textContent='Answer sent…';link.send({type:'answer',choice,i:index})}}
 function result(d){clearInterval(timer);answered=true;document.querySelectorAll('[data-choice]').forEach(b=>b.disabled=true);if(!$('feedback'))return;$('feedback').innerHTML='<h3>'+(d.correct?'Correct! +'+d.points:'Keep learning')+'</h3><p><strong>Answer: '+esc(d.answer)+'</strong></p><p>'+esc(d.feedback)+'</p><p>Total: '+d.score+' points</p>'+(d.mode==='race'?'<button id="continue">Continue</button>':'<p>Wait for your instructor to advance.</p>');if($('continue'))$('continue').onclick=()=>{if(local){index++;if(index<deck.questions.length)question(deck.questions[index],index);else{phase='finished';view('<section class="card"><h2>Practice complete!</h2><p class="timer">'+ownScore+' points</p><button id="home">Back to games</button></section>');$('home').onclick=home}}else{ $('continue').disabled=true;link.send({type:'next'})}}}
-window.addEventListener('beforeunload',e=>{if(peer&&phase!=='home'){e.preventDefault();e.returnValue=''}});home();unlockInstructor();
+window.addEventListener('beforeunload',e=>{if(peer&&phase!=='home'){e.preventDefault();e.returnValue=''}});if(isHub){gameHub();unlockInstructor().then(gameHub)}else{home();unlockInstructor()}
 </script></html>
